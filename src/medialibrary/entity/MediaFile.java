@@ -1,11 +1,13 @@
 package medialibrary.entity;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  * Created by Hugefish on 13.12.2015.
  */
-public class MediaFile {
+public class MediaFile implements Serializable{
+    private static final long serialVersionUID = 40L;
     private File file;
     private int year;
     private long size;
