@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -13,6 +14,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Callback;
 import medialibrary.entity.FilmFile;
+import medialibrary.entity.quality.AudioType;
+import medialibrary.entity.quality.VideoQuality;
 import medialibrary.logic.MediaFilesManager;
 
 import java.io.File;
@@ -47,6 +50,9 @@ public class Controller {
     private TextField movieWightTextField;
     @FXML
     private TextField movieHeightTextField;
+    @FXML
+    private ComboBox<VideoQuality> movieQualityComboBox;
+    @FXML ComboBox<AudioType> movieAudioTypeComboBox;
 
     @FXML
     public void initialize(){
@@ -79,6 +85,15 @@ public class Controller {
             }
         });
 
+        movieQualityComboBox.getItems().setAll(VideoQuality.values());
+        movieAudioTypeComboBox.getItems().setAll(AudioType.values());
+
+        try {
+            MediaFilesManager.getInstance().loadFromFile(FILE_PATH);
+        } catch (ClassNotFoundException | IOException e) {
+            //Logger
+            System.out.println("Error loading from file");
+        }
         movieTableView.setItems(MediaFilesManager.getInstance().getFilmFilesList());
     }
 
@@ -98,6 +113,8 @@ public class Controller {
             film.setVideoWightSize(Integer.valueOf(movieWightTextField.getText()));
             film.setVideoHeighSize(Integer.valueOf(movieHeightTextField.getText()));
             film.setYear(Integer.valueOf(movieYearTextField.getText()));
+            film.setQuality(movieQualityComboBox.getValue());
+            film.setAudioType(movieAudioTypeComboBox.getValue());
 
             mediaFilesManager.getFilmFilesList().add(film);
             mediaFilesManager.saveToFile(FILE_PATH);

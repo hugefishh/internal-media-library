@@ -43,18 +43,27 @@ public class MediaFilesManager implements Serializable{
     public void saveToFile(String filepath) throws IOException {
         FileOutputStream fos = new FileOutputStream(filepath);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
-        System.out.println("1");
-        oos.writeObject(new ArrayList<>(filmFilesList));
-        System.out.println("2");
+        oos.writeObject(new ArrayList<FilmFile>(filmFilesList));
         oos.writeObject(new ArrayList<>(audioFilesList));
-        System.out.println("3");
         oos.close();
     }
     public void loadFromFile(String filepath) throws IOException, ClassNotFoundException {
         FileInputStream fis = new FileInputStream(filepath);
         ObjectInputStream oin = new ObjectInputStream(fis);
-        ObservableList<FilmFile> list1 = FXCollections.observableList((ArrayList<FilmFile>) oin.readObject());
-        ObservableList<AudioFile> list2 = FXCollections.observableList((ArrayList<AudioFile>) oin.readObject());
+
+        Object obj = oin.readObject();
+        if (obj instanceof ArrayList){
+            System.out.println("Class casting 1 +");
+            ObservableList<FilmFile> list1 = FXCollections.observableList((ArrayList<FilmFile>) obj);
+            filmFilesList = list1;
+        }
+        obj = oin.readObject();
+        if (obj instanceof ArrayList){
+            System.out.println("Class casting 2 +");
+            ObservableList<AudioFile> list = FXCollections.observableList((ArrayList<AudioFile>) obj);
+            audioFilesList = list;
+        }
+
         oin.close();
     }
 }
