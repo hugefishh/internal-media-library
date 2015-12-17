@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="medialibrary.controller.Controller">
    <children>
       <MenuBar prefHeight="25.0" prefWidth="600.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
+                  <MenuItem fx:id="addFileMenuButton" mnemonicParsing="false" onAction="#addFilePressed" text="Add..." />
               <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
@@ -30,12 +30,59 @@
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <TableView prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
-                          </columns>
-                        </TableView>
+                        <SplitPane dividerPositions="0.7011494252873564" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <TableView fx:id="movieTableView" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columns>
+                                        <TableColumn fx:id="movieNameTableColoumn" prefWidth="75.0" text="Name" />
+                                        <TableColumn fx:id="movieSizeTableColoumn" prefWidth="113.0" text="Size" />
+                                          <TableColumn fx:id="movieResolutionTableColoumn" prefWidth="75.0" text="Resolution" />
+                                          <TableColumn fx:id="movieYearTableColoumn" prefWidth="172.0" text="Year" />
+                                          <TableColumn fx:id="movieVideoQualityTableColoumn" prefWidth="98.0" text="Video Quality" />
+                                          <TableColumn fx:id="movieAudioQualityTableColoumn" prefWidth="75.0" text="Audio Type" />
+                                          <TableColumn fx:id="moviePathTableColoumn" prefWidth="75.0" text="Path" />
+                                      </columns>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
+                                    </TableView>
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="227.0" prefWidth="531.0">
+                                 <children>
+                                    <GridPane prefHeight="90.0" prefWidth="570.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <TextField fx:id="movieFilepathTextField" editable="false" prefHeight="25.0" prefWidth="185.0" promptText="Filepath" />
+                                          <Button fx:id="movieBrowse" mnemonicParsing="false" onAction="#onMovieBrowsePressed" text="Browse" GridPane.columnIndex="1" />
+                                          <Label text="Wight:" GridPane.rowIndex="1" />
+                                          <TextField fx:id="movieWightTextField" GridPane.rowIndex="2" />
+                                          <Label text="Height:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <TextField fx:id="movieHeightTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <TextField fx:id="movieYearTextField" promptText="Year" GridPane.columnIndex="2" />
+                                          <Button alignment="CENTER" mnemonicParsing="false" onAction="#addFilePressed" text="Add" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                                          <Button mnemonicParsing="false" text="Delete" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                                          <TextField fx:id="movieNameTextField" promptText="Name" GridPane.columnIndex="4" />
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
                      </children>
                   </AnchorPane>
                </content>
@@ -54,20 +101,6 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab text="Animation">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TableView layoutX="97.0" layoutY="42.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
-                          </columns>
-                        </TableView>
-                     </children>
-                  </AnchorPane>
-              </content>
-            </Tab>
         </tabs>
       </TabPane>
       <GridPane layoutY="343.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
