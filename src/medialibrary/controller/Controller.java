@@ -2,13 +2,11 @@ package medialibrary.controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -52,7 +50,10 @@ public class Controller {
     private TextField movieHeightTextField;
     @FXML
     private ComboBox<VideoQuality> movieQualityComboBox;
-    @FXML ComboBox<AudioType> movieAudioTypeComboBox;
+    @FXML
+    private ComboBox<AudioType> movieAudioTypeComboBox;
+    @FXML
+    private Tab musicTab;
 
     @FXML
     public void initialize(){
@@ -86,7 +87,9 @@ public class Controller {
         });
 
         movieQualityComboBox.getItems().setAll(VideoQuality.values());
+        movieQualityComboBox.valueProperty().setValue(VideoQuality.NONE);
         movieAudioTypeComboBox.getItems().setAll(AudioType.values());
+        movieAudioTypeComboBox.valueProperty().setValue(AudioType.NONE);
 
         try {
             MediaFilesManager.getInstance().loadFromFile(FILE_PATH);
@@ -94,6 +97,7 @@ public class Controller {
             //Logger
             System.out.println("Error loading from file");
         }
+        movieTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         movieTableView.setItems(MediaFilesManager.getInstance().getFilmFilesList());
     }
 
@@ -119,7 +123,8 @@ public class Controller {
             mediaFilesManager.getFilmFilesList().add(film);
             mediaFilesManager.saveToFile(FILE_PATH);
         } catch (NumberFormatException e) {
-            //Error parsing window
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Incorrect input", ButtonType.OK);
+            alert.showAndWait();
             System.out.println("Error parsing window call");
         } catch (IOException e) {
             //Logger log4j
@@ -135,10 +140,27 @@ public class Controller {
         fileChooser.getExtensionFilters().addAll(
                 new ExtensionFilter("Video Files", "*.avi", "*.mp4", "*.mkv"),
                 new ExtensionFilter("All Files", "*.*"));
-        File selectedFile = fileChooser.showOpenDialog(((Node)event.getTarget()).getScene().getWindow());
+        File selectedFile = fileChooser.showOpenDialog(((Node) event.getTarget()).getScene().getWindow());
         if (selectedFile != null) {
             movieFilepathTextField.setText(selectedFile.getAbsolutePath());
         }
+    }
+
+    @FXML
+    public void onDeleteMoviePressed(ActionEvent event){
+        ObservableList<FilmFile> film = movieTableView.getSelectionModel().getSelectedItems();
+        if (film.size() == 0 ){
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No selected items", ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
+        MediaFilesManager.getInstance().deleteFilms(film);
+        try {
+            MediaFilesManager.getInstance().saveToFile(FILE_PATH);
+        } catch (IOException e) {
+            //Logger
+        }
+        movieTableView.setItems(MediaFilesManager.getInstance().getFilmFilesList());
     }
 
 }

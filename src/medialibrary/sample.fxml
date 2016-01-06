@@ -14,7 +14,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" onAction="#onDeleteMoviePressed" text="Delete" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -30,7 +30,7 @@
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <SplitPane dividerPositions="0.7011494252873564" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <SplitPane dividerPositions="0.7" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                  <children>
@@ -75,7 +75,7 @@
                                           <TextField fx:id="movieHeightTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <TextField fx:id="movieYearTextField" promptText="Year" GridPane.columnIndex="2" />
                                           <Button alignment="CENTER" mnemonicParsing="false" onAction="#addFilePressed" text="Add" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                                          <Button mnemonicParsing="false" text="Delete" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                                          <Button mnemonicParsing="false" onAction="#onDeleteMoviePressed" text="Delete" GridPane.columnIndex="5" GridPane.rowIndex="2" />
                                           <TextField fx:id="movieNameTextField" promptText="Name" GridPane.columnIndex="4" />
                                           <ComboBox fx:id="movieQualityComboBox" prefHeight="25.0" prefWidth="105.0" promptText="Quality" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                                           <ComboBox fx:id="movieAudioTypeComboBox" prefHeight="25.0" prefWidth="105.0" promptText="Audio" GridPane.columnIndex="3" GridPane.rowIndex="1" />
@@ -89,7 +89,7 @@
                   </AnchorPane>
                </content>
           </Tab>
-          <Tab text="Music">
+          <Tab fx:id="musicTab" disable="true" text="Music">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>

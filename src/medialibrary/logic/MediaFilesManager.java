@@ -66,4 +66,7 @@ public class MediaFilesManager implements Serializable{
 
         oin.close();
     }
+    public boolean deleteFilms(ObservableList<FilmFile> films){
+        return filmFilesList.removeAll(films);
+    }
 }
